@@ -32,22 +32,22 @@ class Game {
          [card7 = new CardGame("#card7"), card8 = new CardGame("#card8"), card9 = new CardGame("#card9")],
       ];
 
-      this.playersTurn = this.player1.name;
+      this.playerTurn = this.player1;
       this.turnCounter = 1;
       this.matchResult = "";
       this.matchWinner = "";
    }
 
-   setCardState(name, i, j) {
-      board[i][j].setState(name);
+   play(card) {
+      card.setState(this.playerTurn);
       this.changeTurn();
    }
 
    changeTurn() {
-      if (this.playersTurn == this.player1.name) {
-         this.playersTurn = this.player2.name;
+      if (this.playerTurn == this.player1) {
+         this.playerTurn = this.player2;
       } else {
-         this.playersTurn = this.player1.name;
+         this.playerTurn = this.player1;
       }
       this.turnCounter++;
    }
@@ -61,7 +61,7 @@ class Game {
                equals(board[1][2].state, board[1][1].state, board[2][0].state)) {
 
                this.matchResult = "Win";
-               this.matchWinner = this.playersTurn;
+               this.matchWinner = this.playerTurn;
             }
          }
       } else if (this.turnCounter == 9) {
@@ -72,7 +72,7 @@ class Game {
                equals(board[1][2].state, board[1][1].state, board[2][0].state)) {
 
                this.matchResult = "Win";
-               this.matchWinner = this.playersTurn;
+               this.matchWinner = this.playerTurn;
                if (this.matchWinner == this.player1.name) {
                   this.player1.score++;
                } else {
@@ -90,19 +90,26 @@ class Game {
 
 // jQuery
 
-$(document).ready(function () {
+
+
+$(document).ready(function myGame() {
    $("#scoreboard").hide();
    $("#gameBoard").hide();
 
    var player1 = new Player("", "X");
    var player2 = new Player("", "O");
 
-   $("#start-btn").click(function () {
+   $("#start-btn").click(function start() {
       player1.name = $("#player1Form").val();
       player2.name = $("#player2Form").val();
 
+      if (player1.name == "" && player2.name == "") {
+         player1.name = "Darth Vader";
+         player2.name = "Stormtrooper";
+      }
       $("#player1").text(player1.name);
       $("#player2").text(player2.name);
+
       $("#scorePlayer1").text(player1.score);
       $("#scorePlayer2").text(player2.score);
 
@@ -110,10 +117,11 @@ $(document).ready(function () {
       $("#start-btn").hide();
       $("#scoreboard").show();
       $("#gameBoard").show();
-
-
-      newGame = new Game(player1, player2);
    });
 
+   var newGame = new Game(player1, player2);
 
+   $(".btn-game").click(function playerMove() {
+     
+   });
 });

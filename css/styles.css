@@ -68,3 +68,8 @@ table td {
 #card:hover {
    background-color: gray;
 }
+
+#p1Indicator, #p2Indicator {
+   padding: 10px;
+   color: #ff0000;
+}
