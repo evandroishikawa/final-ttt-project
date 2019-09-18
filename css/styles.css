@@ -73,3 +73,18 @@ table td {
    padding: 10px;
    color: #ff0000;
 }
+
+#rdCount {
+   margin: 20px;
+   font-size: 2em;
+   font-weight: bold;
+   text-align: center;
+}
+
+/* classes */
+ .btn-game {
+    height: 150px;
+    width: 150px;
+    font-size: 2em;
+    font-weight: bold;
+ }

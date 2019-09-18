@@ -76,7 +76,7 @@
 
    <!-- Start button -->
    <div style="padding: 20px 200px">
-      <a href="#" type="button" class="btn btn-dark btn-block" id="start-btn">START</a>
+      <button type="button" class="btn btn-dark btn-block" onclick="startGame()" id="start-btn">START</button>
    </div>
 
    <!-- Scoreboard -->
@@ -130,74 +130,31 @@
    </div>
 
    <!-- Game board -->
-   <div class="col">
-      <table id="gameBoard">
+   <div class="col" id="gameBoard">
+      <table id="table">
          <tr>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">1</a>
-                  </div>
-               </div>
-            </td>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">2</a>
-                  </div>
-               </div>
-            </td>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">3</a>
-                  </div>
-               </div>
-            </td>
+            <td><button id="00" class="btn btn-game" value="0 0"></button></td>
+            <td><button id="01" class="btn btn-game" value="0 1"></button></td>
+            <td><button id="02" class="btn btn-game" value="0 2"></button></td>
          </tr>
 
          <tr>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">4</a>
-                  </div>
-               </div>
-            </td>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">5</a>
-                  </div>
-               </div>
-            </td>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">6</a>
-                  </div>
-               </div>
-            </td>
+            <td><button id="10" class="btn btn-game" value="1 0"></button></td>
+            <td><button id="11" class="btn btn-game" value="1 1"></button></td>
+            <td><button id="12" class="btn btn-game" value="1 2"></button></td>
          </tr>
 
          <tr>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">7</a>
-                  </div>
-               </div>
-            </td>
-            <td>
-               <div class="card" id="card">
-                  <div class="card-body">
-                     <a href="#" class="stretched-link btn-game">8</a>
-                  </div>
-               </div>
-            </td>
-            <td><button id="btn9" class="btn btn-primary btn-game"></button></td>
+            <td><button id="20" class="btn btn-game" value="2 0"></button></td>
+            <td><button id="21" class="btn btn-game" value="2 1"></button></td>
+            <td><button id="22" class="btn btn-game" value="2 2"></button></td>
          </tr>
       </table>
+   </div>
+
+   <!-- Round counter-->
+   <div>
+      <p id="rdCount"></p>
    </div>
 </body>
 
