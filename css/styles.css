@@ -31,7 +31,6 @@ table {
 
 table td {
    text-align: center;
-   padding: 1rem;
    border: 5px solid black;
 }
 
@@ -59,4 +58,13 @@ table td {
    color: white;
    font-weight: bold;
    font-size: 1em;
+}
+
+#card {
+   width: 150px;
+   height: 150px;
+} 
+
+#card:hover {
+   background-color: gray;
 }
