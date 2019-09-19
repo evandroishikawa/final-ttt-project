@@ -93,6 +93,14 @@ table td {
    text-align: center;
 }
 
+#rs-btn {
+   margin: 50px 100px;
+}
+
+#roundUp {
+   margin: auto 0;
+}
+
 /* classes */
 
 .btn-game {

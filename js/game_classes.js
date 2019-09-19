@@ -31,14 +31,15 @@ class Board {
          [new CardGame(), new CardGame(), new CardGame()],
       ];
       this.matchResult = "Playing";
+      this.turnCounter = 0;
    }
 
-   play(symbol, row, col) {
+   boardPlay(symbol, row, col) {
       this.board[row][col].setSymbol(symbol);
+      this.turnCounter++;
    }
 
-   checkResult(count) {
-      console.log(count);
+   checkResult() {
       for (let i = 0; i < 3; i++) {
          if (equals(this.board[i][0].symbol, this.board[i][1].symbol, this.board[i][2].symbol) ||
             equals(this.board[0][i].symbol, this.board[1][i].symbol, this.board[2][i].symbol) ||
@@ -46,7 +47,8 @@ class Board {
             equals(this.board[0][2].symbol, this.board[1][1].symbol, this.board[2][0].symbol)) {
 
             this.matchResult = "Win";
-         } else if (count == 9 && this.matchResult != "Win") {
+
+         } else if (this.turnCounter == 9 && this.matchResult != "Win") {
             this.matchResult = "Draw";
          }
       }
@@ -59,16 +61,15 @@ class Game {
          this.player2 = new Player("", "O"),
          this.board = new Board();
       this.playerTurn = this.player1;
-      this.turnCounter = 1;
       this.matchWinner = "";
    }
 
    play() {
       var bd = document.getElementById("gameBoard");
-      document.getElementById("turnCount").innerHTML = "Turn: " + this.turnCounter;
+      document.getElementById("turnCount").innerHTML = "Turn: " + (this.board.turnCounter + 1);
 
       bd.addEventListener("click", (event) => {
-         this.board.checkResult(this.turnCounter);
+         this.board.checkResult();
 
          if (this.board.matchResult == "Playing") {
             if (event.target.tagName == "BUTTON") {
@@ -80,11 +81,13 @@ class Game {
             var row = Number(cardPos[0]);
             var col = Number(cardPos[1]);
 
-            this.board.play((this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol, row, col);
-            this.board.checkResult(this.turnCounter);
+            this.board.boardPlay((this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol, row, col);
+            this.board.checkResult();
             this.changeTurn();
 
-            document.getElementById("turnCount").innerHTML = "Turn: " + this.turnCounter;
+            console.log(this.board);
+
+            document.getElementById("turnCount").innerHTML = "Turn: " + (this.board.turnCounter + 1);
          } else {
             this.changeTurn();
             for (var i = 1; i <= 9; i++) {
@@ -102,6 +105,7 @@ class Game {
          document.getElementById("p2Indicator").innerHTML = "Match is over!";
          document.getElementById("showWinner").innerHTML = this.board.matchResult == "Win"
             ? "Winner: " + this.playerTurn.name : "Draw";
+         $("#roundUp").show();
 
       } else if (this.playerTurn == this.player1) {
          document.getElementById("p2Indicator").innerHTML = "Sua Vez!";
@@ -113,8 +117,23 @@ class Game {
          document.getElementById("p2Indicator").innerHTML = "Vez de Player 1";
          this.playerTurn = this.player1;
       }
+   }
 
-      this.turnCounter++;
+   restartGame() {
+      var bd = document.getElementById("rs-btn");
+      bd.addEventListener("click", (event) => {
+         if (event.target.tagName == "BUTTON") {
+            for (var i = 1; i <= 9; i++) {
+               document.getElementById("btn-" + i).innerHTML = "";
+               document.getElementById("btn-" + i).disabled = false;
+            }
+            this.board = new Board();
+            $("#roundUp").hide();
+            document.getElementById("showWinner").innerHTML = "";
+            document.getElementById("turnCount").innerHTML = "Turn: " + (this.board.turnCounter + 1);
+            this.changeTurn();
+         }
+      });
    }
 }
 
@@ -139,15 +158,18 @@ function startGame() {
 
    $("#playerSetUp").hide();
    $("#start-btn").hide();
+
    $("#scoreboard").show();
    $("#table").show();
    $("#rdCount").show();
 
    newGame.play();
+   newGame.restartGame();
 }
 
 $(document).ready(function () {
    $("#scoreboard").hide();
    $("#table").hide();
    $("#rdCount").hide();
+   $("#roundUp").hide();
 });
