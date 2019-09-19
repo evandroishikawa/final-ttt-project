@@ -28,6 +28,9 @@ table {
    border-collapse: collapse;
    border-style: hidden;
 }
+td:hover {
+   background-color: grey;
+}
 
 table td {
    text-align: center;
@@ -60,15 +63,6 @@ table td {
    font-size: 1.5em;
 }
 
-#card {
-   width: 150px;
-   height: 150px;
-}
-
-#card:hover {
-   background-color: gray;
-}
-
 #p1Indicator {
    padding: 10px;
    color: #ff0000;
@@ -91,6 +85,14 @@ table td {
    font-size: 1.2em;
    font-weight: bold;
    text-align: center;
+}
+
+#reset-btn {
+   padding: 50px 100px;
+}
+
+#roundUp {
+   margin: auto 0;
 }
 
 /* classes */
