@@ -57,9 +57,9 @@ class Board {
 
 class Game {
    constructor() {
-      this.player1 = new Player("", "X"),
-         this.player2 = new Player("", "O"),
-         this.board = new Board();
+      this.player1 = new Player("", "X");
+      this.player2 = new Player("", "O");
+      this.board = new Board();
       this.playerTurn = this.player1;
       this.matchWinner = "";
    }
@@ -127,10 +127,24 @@ class Game {
                document.getElementById("btn-" + i).innerHTML = "";
                document.getElementById("btn-" + i).disabled = false;
             }
+            
             this.board = new Board();
+
             $("#roundUp").hide();
+
             document.getElementById("showWinner").innerHTML = "";
             document.getElementById("turnCount").innerHTML = "Turn: " + (this.board.turnCounter + 1);
+
+            if (this.playerTurn == this.player1) {
+               this.player1.score++;
+               $("#scorePlayer1").text(this.player1.score);
+               $("#scorePlayer2").text(this.player2.score);
+            } else {
+               this.player2.score++;
+               $("#scorePlayer1").text(this.player1.score);
+               $("#scorePlayer2").text(this.player2.score);
+            }
+
             this.changeTurn();
          }
       });
