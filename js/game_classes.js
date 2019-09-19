@@ -1,7 +1,7 @@
 function equals(a, b, c) {
    if (a != "" && a == b && b == c) {
       return true;
-   } 
+   }
    return false;
 }
 
@@ -30,38 +30,34 @@ class Board {
          [new CardGame(), new CardGame(), new CardGame()],
          [new CardGame(), new CardGame(), new CardGame()],
       ];
-      this.matchResult = "playing";
+      this.matchResult = "Playing";
    }
 
    play(symbol, row, col) {
       this.board[row][col].setSymbol(symbol);
    }
 
-   checkResult() {
+   checkResult(count) {
+      console.log(count);
       for (let i = 0; i < 3; i++) {
-         if (equals(this.board[0][0].symbol, this.board[0][1].symbol, this.board[0][2].symbol) ||
-            equals(this.board[1][0].symbol, this.board[1][1].symbol, this.board[1][2].symbol) ||
-            equals(this.board[2][0].symbol, this.board[2][1].symbol, this.board[2][2].symbol) ||
-            equals(this.board[0][0].symbol, this.board[1][0].symbol, this.board[2][0].symbol) ||
-            equals(this.board[0][1].symbol, this.board[1][1].symbol, this.board[2][1].symbol) ||
-            equals(this.board[0][2].symbol, this.board[1][2].symbol, this.board[2][2].symbol) ||
+         if (equals(this.board[i][0].symbol, this.board[i][1].symbol, this.board[i][2].symbol) ||
+            equals(this.board[0][i].symbol, this.board[1][i].symbol, this.board[2][i].symbol) ||
             equals(this.board[0][0].symbol, this.board[1][1].symbol, this.board[2][2].symbol) ||
             equals(this.board[0][2].symbol, this.board[1][1].symbol, this.board[2][0].symbol)) {
 
-            return "Win";
-         } 
-         return "nada";
-         
+            this.matchResult = "Win";
+         } else if (count == 9 && this.matchResult != "Win") {
+            this.matchResult = "Draw";
+         }
       }
-      
    }
 }
 
 class Game {
    constructor() {
       this.player1 = new Player("", "X"),
-      this.player2 = new Player("", "O"),
-      this.board = new Board();
+         this.player2 = new Player("", "O"),
+         this.board = new Board();
       this.playerTurn = this.player1;
       this.turnCounter = 1;
       this.matchWinner = "";
@@ -69,32 +65,55 @@ class Game {
 
    play() {
       var bd = document.getElementById("gameBoard");
-      document.getElementById("rdCount").innerHTML = this.turnCounter;
+      document.getElementById("turnCount").innerHTML = "Turn: " + this.turnCounter;
 
       bd.addEventListener("click", (event) => {
-         event.target.innerHTML = (this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol;
-         
+         this.board.checkResult(this.turnCounter);
 
-         console.log(this.playerTurn.symbol);
+         if (this.board.matchResult == "Playing") {
+            if (event.target.tagName == "BUTTON") {
+               event.target.innerHTML = (this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol;
+               document.getElementById("" + event.target.id + "").disabled = true;
+            }
 
-         var cardPos = event.target.value.split(" ");
-         var row = Number(cardPos[0]);
-         var col = Number(cardPos[1]);
+            var cardPos = event.target.value.split(" ");
+            var row = Number(cardPos[0]);
+            var col = Number(cardPos[1]);
 
-         this.board.play((this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol, row, col);
+            this.board.play((this.playerTurn == this.player1) ? this.player1.symbol : this.player2.symbol, row, col);
+            this.board.checkResult(this.turnCounter);
+            this.changeTurn();
 
-         document.getElementById("rdCount").innerHTML = this.board.checkResult() + " " + this.turnCounter;
-         console.log(this.board)
-         this.changeTurn();
+            document.getElementById("turnCount").innerHTML = "Turn: " + this.turnCounter;
+         } else {
+            this.changeTurn();
+            for (var i = 1; i <= 9; i++) {
+               document.getElementById("btn-" + i).disabled = true;
+            }
+         }
       });
+
+
    }
 
    changeTurn() {
-      if (this.playerTurn == this.player1) {
+      if (this.board.matchResult == "Draw" || this.board.matchResult == "Win") {
+         document.getElementById("p1Indicator").innerHTML = "Match is over!";
+         document.getElementById("p2Indicator").innerHTML = "Match is over!";
+         document.getElementById("showWinner").innerHTML = this.board.matchResult == "Win"
+            ? "Winner: " + this.playerTurn.name : "Draw";
+
+      } else if (this.playerTurn == this.player1) {
+         document.getElementById("p2Indicator").innerHTML = "Sua Vez!";
+         document.getElementById("p1Indicator").innerHTML = "Vez de Player 2";
          this.playerTurn = this.player2;
+
       } else {
+         document.getElementById("p1Indicator").innerHTML = "Sua Vez!";
+         document.getElementById("p2Indicator").innerHTML = "Vez de Player 1";
          this.playerTurn = this.player1;
       }
+
       this.turnCounter++;
    }
 }
@@ -108,10 +127,10 @@ function startGame() {
    if (newGame.player1.name == "" && newGame.player2.name == "") {
       newGame.player1.name = "Darth Vader";
       newGame.player2.name = "Stormtrooper";
-   } 
+   }
 
-   $("#player1").text(newGame.player1.name);
-   $("#player2").text(newGame.player2.name);
+   $("#player1").text("Player 1: " + newGame.player1.name);
+   $("#player2").text("Player 2: " + newGame.player2.name);
 
    $("#scorePlayer1").text(newGame.player1.score);
    $("#scorePlayer2").text(newGame.player2.score);
@@ -127,7 +146,7 @@ function startGame() {
    newGame.play();
 }
 
-$(document).ready(function (){
+$(document).ready(function () {
    $("#scoreboard").hide();
    $("#table").hide();
    $("#rdCount").hide();

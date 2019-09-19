@@ -57,21 +57,26 @@ table td {
    margin: auto auto;
    color: white;
    font-weight: bold;
-   font-size: 1em;
+   font-size: 1.5em;
 }
 
 #card {
    width: 150px;
    height: 150px;
-} 
+}
 
 #card:hover {
    background-color: gray;
 }
 
-#p1Indicator, #p2Indicator {
+#p1Indicator {
    padding: 10px;
    color: #ff0000;
+}
+
+#p2Indicator {
+   padding: 10px;
+   color: #8300ee;
 }
 
 #rdCount {
@@ -81,10 +86,19 @@ table td {
    text-align: center;
 }
 
+#turnCount {
+   margin: 20px;
+   font-size: 1.2em;
+   font-weight: bold;
+   text-align: center;
+}
+
 /* classes */
- .btn-game {
-    height: 150px;
-    width: 150px;
-    font-size: 2em;
-    font-weight: bold;
- }
+
+.btn-game {
+   height: 150px;
+   width: 150px;
+   font-size: 2em;
+   font-weight: bold;
+   border: none;
+}
