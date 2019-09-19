@@ -119,15 +119,27 @@ class Game {
       }
    }
 
-   restartGame() {
-      var bd = document.getElementById("rs-btn");
+   resetGame() {
+      var bd = document.getElementById("reset-btn");
       bd.addEventListener("click", (event) => {
          if (event.target.tagName == "BUTTON") {
             for (var i = 1; i <= 9; i++) {
                document.getElementById("btn-" + i).innerHTML = "";
                document.getElementById("btn-" + i).disabled = false;
             }
-            
+
+            if (this.board.matchResult != "Draw") {
+               if (this.playerTurn == this.player1) {
+                  this.player1.score++;
+                  $("#scorePlayer1").text(this.player1.score);
+                  $("#scorePlayer2").text(this.player2.score);
+               } else {
+                  this.player2.score++;
+                  $("#scorePlayer1").text(this.player1.score);
+                  $("#scorePlayer2").text(this.player2.score);
+               }
+            }
+
             this.board = new Board();
 
             $("#roundUp").hide();
@@ -135,18 +147,15 @@ class Game {
             document.getElementById("showWinner").innerHTML = "";
             document.getElementById("turnCount").innerHTML = "Turn: " + (this.board.turnCounter + 1);
 
-            if (this.playerTurn == this.player1) {
-               this.player1.score++;
-               $("#scorePlayer1").text(this.player1.score);
-               $("#scorePlayer2").text(this.player2.score);
-            } else {
-               this.player2.score++;
-               $("#scorePlayer1").text(this.player1.score);
-               $("#scorePlayer2").text(this.player2.score);
-            }
-
             this.changeTurn();
          }
+      });
+   }
+
+   restartGame() {
+      var bd = document.getElementById("restart-btn");
+      bd.addEventListener("click", (event) => {
+         location.reload(true);
       });
    }
 }
@@ -178,6 +187,7 @@ function startGame() {
    $("#rdCount").show();
 
    newGame.play();
+   newGame.resetGame();
    newGame.restartGame();
 }
 
